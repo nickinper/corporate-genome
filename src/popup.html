@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Corporate Genome</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { width: 400px; padding: 15px; }
+        .security-panel { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px; }
+        .api-key-form { margin: 10px 0; }
+        .api-key-input { width: 100%; margin: 5px 0; padding: 5px; }
+        .key-status { font-size: 12px; margin: 2px 0; }
+        .key-configured { color: green; }
+        .key-missing { color: red; }
+        button { padding: 8px 15px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="popup-container">
+        <h1>🧬 Corporate Genome</h1>
+        <p>Advanced corporate ownership intelligence</p>
+        
+        <!-- Your existing popup content -->
+        <div class="main-controls">
+            <button id="refresh-data">Refresh Data</button>
+            <button id="export-data">Export Data</button>
+        </div>
+        
+        <!-- NEW: Security Settings Panel -->
+        <div class="security-panel" id="security-panel">
+            <h3>🔐 Security Settings</h3>
+            
+            <div class="vault-status">
+                <strong>Vault Status:</strong> <span id="vault-status">Loading...</span>
+            </div>
+            
+            <form id="api-key-form" class="api-key-form">
+                <h4>API Keys (Encrypted Storage)</h4>
+                
+                <label>News API Key:</label>
+                <input type="password" name="newsApi" class="api-key-input" placeholder="Enter NewsAPI key">
+                <div id="newsApi-indicator" class="key-status">❓ Unknown</div>
+                
+                <label>FRED API Key:</label>
+                <input type="password" name="fredApi" class="api-key-input" placeholder="Enter FRED API key">
+                <div id="fredApi-indicator" class="key-status">❓ Unknown</div>
+                
+                <label>OpenCorporates API Key (optional):</label>
+                <input type="password" name="opencorporates" class="api-key-input" placeholder="Enter OpenCorporates key">
+                <div id="opencorporates-indicator" class="key-status">❓ Unknown</div>
+                
+                <button type="submit">💾 Save Keys (Encrypted)</button>
+            </form>
+            
+            <div class="security-actions">
+                <button id="reset-vault" style="background: #ff4444; color: white;">🗑️ Reset Vault</button>
+            </div>
+        </div>
+        
+        <div class="info">
+            <small>v0.5.0 - Enhanced Security Edition</small>
+        </div>
+    </div>
+    
+    <script src="core/security/key-vault.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

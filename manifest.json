@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Corporate Genome",
+  "version": "0.5.0",
+  "description": "Advanced corporate ownership intelligence with multi-source data and security",
+  
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "https://query1.finance.yahoo.com/*",
+    "https://www.sec.gov/*",
+    "https://api.opencorporates.com/*",
+    "https://api.usaspending.gov/*",
+    "https://api.stlouisfed.org/*",
+    "https://newsapi.org/*"
+  ],
+  
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["https://www.forbes.com/*"],
+      "js": [
+        "src/core/security/key-vault.js",
+        "src/content-script.js"
+      ],
+      "css": ["src/styles.css"]
+    }
+  ],
+  
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_title": "Corporate Genome - Enhanced Intelligence"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["src/styles.css"],
+      "matches": ["https://www.forbes.com/*"]
+    }
+  ]
+}

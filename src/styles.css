@@ -1,0 +1,10 @@
+/* Corporate Genome Styles */
+.cg-hover-card {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 99999;
+    display: none;
+}
