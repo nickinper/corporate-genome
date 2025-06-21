@@ -25,10 +25,29 @@
   
   "content_scripts": [
     {
-      "matches": ["https://www.forbes.com/*"],
+      "matches": [
+        "https://www.forbes.com/*",
+        "https://finance.yahoo.com/*",
+        "https://www.bloomberg.com/*",
+        "https://www.marketwatch.com/*"
+      ],
       "js": [
         "src/core/security/key-vault.js",
-        "src/content-script.js"
+        "src/core/security/site-isolation.js",
+        "src/modules/recognition/company-normalizer.js",
+        "src/modules/recognition/fuzzy-matcher.js",
+        "src/modules/recognition/company-knowledge-base.js",
+        "src/modules/recognition/nlp-processor.js",
+        "src/modules/recognition/nlp-processor-enhanced.js",
+        "src/modules/recognition/dom-interpreter.js",
+        "src/modules/recognition/confidence-scorer.js",
+        "src/modules/ui/tooltip-manager.js",
+        "src/modules/ui/hover-handler.js",
+        "src/modules/recognition/site-adapters/base-adapter.js",
+        "src/modules/recognition/site-adapters/forbes-adapter.js",
+        "src/core/intelligence-engine.js",
+        "src/core/intelligence-engine-v2.js",
+        "src/content-script-v2.js"
       ],
       "css": ["src/styles.css"]
     }
@@ -41,8 +60,17 @@
   
   "web_accessible_resources": [
     {
-      "resources": ["src/styles.css"],
-      "matches": ["https://www.forbes.com/*"]
+      "resources": [
+        "src/styles.css",
+        "src/core/intelligence-engine-v2.js",
+        "src/modules/recognition/site-adapters/*.js"
+      ],
+      "matches": [
+        "https://www.forbes.com/*",
+        "https://finance.yahoo.com/*",
+        "https://www.bloomberg.com/*",
+        "https://www.marketwatch.com/*"
+      ]
     }
   ]
 }

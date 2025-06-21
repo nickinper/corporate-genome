@@ -1,4 +1,4 @@
-javascript// Corporate Genome: Resilient Pattern Recognition Engine
+// Corporate Genome: Resilient Pattern Recognition Engine
 class PatternRecognitionMembrane {
     constructor() {
         this.patterns = new Map();
@@ -270,8 +270,10 @@ class SecureHoverSystem {
 
     observeDOMChanges() {
         const observer = new MutationObserver((mutations) => {
-            // Revalidate patterns when DOM changes
-            this.recognizer.adaptToNewPatterns(mutations);
+            // Revalidate patterns when DOM changes - only if recognizer has this method
+            if (this.recognizer && typeof this.recognizer.adaptToNewPatterns === 'function') {
+                this.recognizer.adaptToNewPatterns(mutations);
+            }
         });
 
         observer.observe(document.body, {
@@ -298,6 +300,20 @@ class SecureHoverSystem {
 
         // Create secure tooltip
         this.displayTooltip(element, detection, ownershipData);
+    }
+
+    handleMouseOut(event) {
+        const element = event.target;
+        
+        // Clean up hover state
+        if (this.activeHovers.has(element)) {
+            this.activeHovers.delete(element);
+            // Remove tooltip if it exists
+            const tooltip = document.querySelector('.corp-genome-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+        }
     }
 
     displayTooltip(element, detection, data) {

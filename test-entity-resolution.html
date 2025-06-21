@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Genome - Entity Resolution Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #3b82f6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .test-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        .entity-highlight {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-bottom: 2px solid #3b82f6;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧬 Corporate Genome - Entity Resolution Test</h1>
+    
+    <div class="test-section">
+        <h2>Company Name Normalization</h2>
+        <input type="text" class="test-input" id="normalizeInput" placeholder="Enter company name (e.g., Apple Inc., Microsoft Corp.)" value="Berkshire Hathaway Inc.">
+        <button onclick="testNormalization()">Test Normalization</button>
+        <div id="normalizeResult" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Fuzzy Matching</h2>
+        <input type="text" class="test-input" id="fuzzyInput1" placeholder="Company 1" value="Berkshire Hathaway">
+        <input type="text" class="test-input" id="fuzzyInput2" placeholder="Company 2" value="Berkshire Hathaway Inc.">
+        <button onclick="testFuzzyMatching()">Test Matching</button>
+        <div id="fuzzyResult" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Knowledge Base Search</h2>
+        <input type="text" class="test-input" id="kbSearchInput" placeholder="Search for company" value="Apple">
+        <button onclick="testKnowledgeBase()">Search</button>
+        <div id="kbResult" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Enhanced NLP Processing</h2>
+        <textarea class="test-input" id="nlpInput" rows="4" placeholder="Enter text containing company names">Warren Buffett's Berkshire Hathaway Inc. announced today that it has increased its stake in Apple Inc. (NASDAQ: AAPL) to $150 billion. The Omaha-based conglomerate also holds significant positions in Bank of America Corp and Coca-Cola Company.</textarea>
+        <button onclick="testEnhancedNLP()">Process Text</button>
+        <div id="nlpResult" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Article</h2>
+        <div id="testArticle" style="padding: 20px; background-color: #f9f9f9;">
+            <h3>Tech Giants Report Strong Earnings</h3>
+            <p>
+                <span class="test-entity">Microsoft Corporation</span> reported record revenues of $51.7 billion, beating analyst expectations. 
+                CEO Satya Nadella highlighted growth in cloud services. Meanwhile, <span class="test-entity">Apple Inc.</span> (AAPL) 
+                saw iPhone sales surge 15% year-over-year.
+            </p>
+            <p>
+                Other tech companies including <span class="test-entity">Amazon.com Inc.</span>, <span class="test-entity">Alphabet</span> (formerly Google), 
+                and <span class="test-entity">Meta Platforms</span> (previously Facebook Inc.) also posted strong results. 
+                <span class="test-entity">NVIDIA</span> continues to dominate the AI chip market.
+            </p>
+            <p>
+                In the financial sector, <span class="test-entity">JPMorgan Chase & Co.</span> and <span class="test-entity">Berkshire Hathaway</span> 
+                reported mixed results, with JPM showing strength in investment banking while Warren Buffett's company increased its cash holdings.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Load the entity resolution modules -->
+    <script src="src/modules/recognition/company-normalizer.js"></script>
+    <script src="src/modules/recognition/fuzzy-matcher.js"></script>
+    <script src="src/modules/recognition/company-knowledge-base.js"></script>
+    <script src="src/modules/recognition/nlp-processor.js"></script>
+    <script src="src/modules/recognition/nlp-processor-enhanced.js"></script>
+    
+    <script>
+        // Test functions
+        function testNormalization() {
+            const normalizer = new CompanyNormalizer();
+            const input = document.getElementById('normalizeInput').value;
+            
+            const result = {
+                original: input,
+                normalized: normalizer.normalize(input),
+                baseName: normalizer.getBaseName(input),
+                suffixes: normalizer.getSuffixes(input),
+                type: normalizer.getType(input),
+                countryHints: normalizer.getCountryHints(input)
+            };
+            
+            document.getElementById('normalizeResult').textContent = JSON.stringify(result, null, 2);
+        }
+        
+        function testFuzzyMatching() {
+            const matcher = new FuzzyMatcher();
+            const input1 = document.getElementById('fuzzyInput1').value;
+            const input2 = document.getElementById('fuzzyInput2').value;
+            
+            const result = {
+                inputs: [input1, input2],
+                ratio: matcher.ratio(input1, input2),
+                partialRatio: matcher.partialRatio(input1, input2),
+                tokenSortRatio: matcher.tokenSortRatio(input1, input2),
+                tokenSetRatio: matcher.tokenSetRatio(input1, input2),
+                companyNameRatio: matcher.companyNameRatio(input1, input2),
+                enhancedCompanyRatio: matcher.enhancedCompanyRatio(input1, input2),
+                isMatch: matcher.isMatch(input1, input2),
+                confidence: matcher.scoreToConfidence(matcher.companyNameRatio(input1, input2))
+            };
+            
+            document.getElementById('fuzzyResult').textContent = JSON.stringify(result, null, 2);
+        }
+        
+        function testKnowledgeBase() {
+            const kb = new CompanyKnowledgeBase();
+            const searchText = document.getElementById('kbSearchInput').value;
+            
+            const results = kb.search(searchText, {
+                limit: 5,
+                threshold: 0.5,
+                includeAliases: true,
+                includeTickers: true
+            });
+            
+            const output = {
+                query: searchText,
+                resultsCount: results.length,
+                results: results.map(r => ({
+                    name: r.company.name,
+                    ticker: r.company.ticker,
+                    score: r.score,
+                    matchType: r.matchType,
+                    matchedText: r.matchedText,
+                    aliases: Array.from(r.company.aliases),
+                    industry: r.company.industry
+                }))
+            };
+            
+            document.getElementById('kbResult').textContent = JSON.stringify(output, null, 2);
+        }
+        
+        async function testEnhancedNLP() {
+            const processor = new EnhancedNLPProcessor();
+            const text = document.getElementById('nlpInput').value;
+            
+            const result = await processor.extractEntities(text);
+            
+            const output = {
+                totalEntities: result.entities.length,
+                confidence: result.confidence,
+                processingTime: result.processingTime,
+                enhanced: result.enhanced,
+                entities: result.entities.map(e => ({
+                    text: e.text,
+                    normalized: e.normalized,
+                    baseName: e.baseName,
+                    type: e.type,
+                    confidence: e.confidence,
+                    knowledgeBase: e.knowledgeBase ? {
+                        company: e.knowledgeBase.company.name,
+                        ticker: e.knowledgeBase.company.ticker,
+                        score: e.knowledgeBase.score
+                    } : null,
+                    context: e.context ? {
+                        industries: e.context.industries,
+                        sentiment: e.context.sentiment
+                    } : null
+                }))
+            };
+            
+            document.getElementById('nlpResult').textContent = JSON.stringify(output, null, 2);
+        }
+        
+        // Highlight test entities on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.test-entity').forEach(el => {
+                el.classList.add('entity-highlight');
+                el.title = 'Test entity - hover to see detection';
+            });
+        });
+    </script>
+</body>
+</html>

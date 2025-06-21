@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Genome - Enhanced Tooltip Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f8fafc;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section h3 {
+            color: #1e40af;
+            margin-top: 0;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        
+        .company-mention {
+            background-color: rgba(59, 130, 246, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-left: 3px solid #3b82f6;
+            margin: 2px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .company-mention:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .debug-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 11px;
+            z-index: 999999;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .debug-toggle {
+            position: fixed;
+            top: 20px;
+            right: 340px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 999999;
+        }
+        
+        .stress-test {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stress-item {
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+        }
+        
+        .controls {
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .controls button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        
+        .controls button:hover {
+            background: #2563eb;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status.active {
+            background: #10b981;
+            color: white;
+        }
+        
+        .status.inactive {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧬 Corporate Genome - Enhanced Tooltip Test</h1>
+        <p>Testing improved hover detection and tooltip display with Shadow DOM isolation</p>
+    </div>
+    
+    <button class="debug-toggle" onclick="toggleDebug()">Debug Panel</button>
+    <div id="debugPanel" class="debug-panel" style="display: none;">
+        <div id="debugContent">Loading debug info...</div>
+    </div>
+    
+    <div class="controls">
+        <h3>Test Controls</h3>
+        <button onclick="testTooltipManager()">Test Tooltip Manager</button>
+        <button onclick="testHoverHandler()">Test Hover Handler</button>
+        <button onclick="clearAllTooltips()">Clear Tooltips</button>
+        <button onclick="runStressTest()">Stress Test</button>
+        <span id="systemStatus" class="status inactive">System: Not Loaded</span>
+    </div>
+    
+    <div class="test-section">
+        <h3>Basic Company Mentions</h3>
+        <p>
+            <span class="company-mention">Apple Inc.</span> reported strong quarterly earnings, while 
+            <span class="company-mention">Microsoft Corporation</span> announced new cloud services. 
+            <span class="company-mention">Amazon.com Inc.</span> continues to dominate e-commerce, and 
+            <span class="company-mention">Alphabet Inc.</span> (formerly Google) shows growth in AI.
+        </p>
+    </div>
+    
+    <div class="test-section">
+        <h3>Complex Nested Structures</h3>
+        <div style="padding: 20px; border: 2px dashed #ccc;">
+            <div style="background: #f0f0f0; padding: 15px;">
+                <p>Warren Buffett's <span class="company-mention">Berkshire Hathaway Inc.</span> has invested heavily in 
+                <span class="company-mention">Bank of America Corp</span> and maintains a large stake in 
+                <span class="company-mention">Coca-Cola Company</span>.</p>
+                
+                <div style="margin: 10px; padding: 10px; background: white;">
+                    <strong>Financial Sector Leaders:</strong>
+                    <span class="company-mention">JPMorgan Chase & Co.</span>,
+                    <span class="company-mention">Wells Fargo & Company</span>,
+                    <span class="company-mention">Goldman Sachs Group Inc.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Rapid Hover Test</h3>
+        <p>Move your mouse quickly over these companies to test debouncing:</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <span class="company-mention">Tesla Inc.</span>
+            <span class="company-mention">NVIDIA Corporation</span>
+            <span class="company-mention">Advanced Micro Devices</span>
+            <span class="company-mention">Intel Corporation</span>
+            <span class="company-mention">Meta Platforms Inc.</span>
+            <span class="company-mention">Netflix Inc.</span>
+            <span class="company-mention">PayPal Holdings</span>
+            <span class="company-mention">Salesforce Inc.</span>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Stress Test Grid</h3>
+        <div class="stress-test" id="stressTestGrid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Edge Cases</h3>
+        <div style="position: relative;">
+            <div style="position: absolute; top: 50px; left: 50px;">
+                <span class="company-mention">Positioned Element Corp</span>
+            </div>
+            <div style="overflow: hidden; height: 100px; width: 200px; border: 1px solid #ccc;">
+                <div style="padding: 150px;">
+                    <span class="company-mention">Overflow Hidden Inc.</span>
+                </div>
+            </div>
+            <div style="transform: rotate(45deg); margin: 100px;">
+                <span class="company-mention">Transformed Company Ltd</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load all required modules -->
+    <script src="src/modules/recognition/company-normalizer.js"></script>
+    <script src="src/modules/recognition/fuzzy-matcher.js"></script>
+    <script src="src/modules/recognition/company-knowledge-base.js"></script>
+    <script src="src/modules/recognition/nlp-processor.js"></script>
+    <script src="src/modules/recognition/nlp-processor-enhanced.js"></script>
+    <script src="src/modules/ui/tooltip-manager.js"></script>
+    <script src="src/modules/ui/hover-handler.js"></script>
+    
+    <script>
+        // Global test state
+        let tooltipManager = null;
+        let hoverHandler = null;
+        let debugInterval = null;
+        
+        // Mock adapter for testing
+        class MockAdapter {
+            constructor() {
+                this.detectedEntities = new Map();
+                this.kb = new CompanyKnowledgeBase();
+                this.nlp = new EnhancedNLPProcessor();
+            }
+            
+            async detectEntities(element) {
+                const text = element.textContent?.trim();
+                if (!text || text.length < 3) return [];
+                
+                // Simulate entity detection
+                const result = await this.nlp.extractEntities(text);
+                return result.entities || [];
+            }
+        }
+        
+        // Initialize systems
+        function initializeSystems() {
+            try {
+                tooltipManager = new EnhancedTooltipManager();
+                const mockAdapter = new MockAdapter();
+                hoverHandler = new EnhancedHoverHandler(mockAdapter, tooltipManager);
+                hoverHandler.initialize();
+                
+                updateStatus('active', 'System: Active');
+                console.log('✅ Test systems initialized');
+                
+                return true;
+            } catch (error) {
+                console.error('Failed to initialize systems:', error);
+                updateStatus('inactive', 'System: Error');
+                return false;
+            }
+        }
+        
+        function updateStatus(status, text) {
+            const statusEl = document.getElementById('systemStatus');
+            statusEl.className = `status ${status}`;
+            statusEl.textContent = text;
+        }
+        
+        function testTooltipManager() {
+            if (!tooltipManager) {
+                alert('Tooltip Manager not initialized');
+                return;
+            }
+            
+            const testElement = document.querySelector('.company-mention');
+            const mockEntity = {
+                text: 'Test Company Inc.',
+                confidence: { score: 0.95 },
+                knowledgeBase: {
+                    company: {
+                        name: 'Test Company Inc.',
+                        ticker: 'TEST',
+                        exchange: 'NASDAQ',
+                        industry: 'Technology'
+                    }
+                }
+            };
+            
+            tooltipManager.showTooltip(mockEntity, testElement);
+        }
+        
+        function testHoverHandler() {
+            if (!hoverHandler) {
+                alert('Hover Handler not initialized');
+                return;
+            }
+            
+            const debug = hoverHandler.getDebugInfo();
+            alert(JSON.stringify(debug, null, 2));
+        }
+        
+        function clearAllTooltips() {
+            if (tooltipManager) {
+                tooltipManager.hideAllTooltips();
+            }
+        }
+        
+        function runStressTest() {
+            const grid = document.getElementById('stressTestGrid');
+            grid.innerHTML = '';
+            
+            const companies = [
+                'Apple Inc.', 'Microsoft Corp.', 'Amazon.com Inc.', 'Alphabet Inc.',
+                'Tesla Inc.', 'Meta Platforms', 'NVIDIA Corp.', 'Berkshire Hathaway',
+                'Johnson & Johnson', 'JPMorgan Chase', 'Procter & Gamble', 'Visa Inc.',
+                'UnitedHealth Group', 'Home Depot Inc.', 'Mastercard Inc.', 'Pfizer Inc.',
+                'Bank of America', 'Chevron Corp.', 'Abbott Labs', 'Costco Wholesale'
+            ];
+            
+            companies.forEach((company, index) => {
+                const item = document.createElement('div');
+                item.className = 'stress-item';
+                item.innerHTML = `
+                    <div>Item ${index + 1}</div>
+                    <span class="company-mention">${company}</span>
+                `;
+                grid.appendChild(item);
+            });
+            
+            console.log('Stress test grid created with', companies.length, 'companies');
+        }
+        
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                startDebugUpdates();
+            } else {
+                panel.style.display = 'none';
+                stopDebugUpdates();
+            }
+        }
+        
+        function startDebugUpdates() {
+            debugInterval = setInterval(updateDebugInfo, 1000);
+        }
+        
+        function stopDebugUpdates() {
+            if (debugInterval) {
+                clearInterval(debugInterval);
+                debugInterval = null;
+            }
+        }
+        
+        function updateDebugInfo() {
+            const content = document.getElementById('debugContent');
+            
+            const info = {
+                timestamp: new Date().toLocaleTimeString(),
+                tooltipManager: tooltipManager ? {
+                    activeTooltips: tooltipManager.activeTooltips.size,
+                    tooltipPool: tooltipManager.tooltipPool.length,
+                    shadowDOMEnabled: !!tooltipManager.shadowRoot
+                } : 'Not initialized',
+                hoverHandler: hoverHandler ? hoverHandler.getDebugInfo() : 'Not initialized',
+                mousePosition: tooltipManager?.lastMousePosition || 'Unknown'
+            };
+            
+            content.innerHTML = '<pre>' + JSON.stringify(info, null, 2) + '</pre>';
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const success = initializeSystems();
+                if (success) {
+                    runStressTest();
+                }
+            }, 500);
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (hoverHandler) hoverHandler.deactivate();
+            if (tooltipManager) tooltipManager.cleanup();
+            stopDebugUpdates();
+        });
+        
+        // Log mouse movements for debugging
+        document.addEventListener('mousemove', (e) => {
+            if (tooltipManager) {
+                tooltipManager.lastMousePosition = { x: e.clientX, y: e.clientY };
+            }
+        });
+    </script>
+</body>
+</html>
